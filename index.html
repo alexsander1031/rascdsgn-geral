@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Gratuito | Gestor de Tráfego Pago em Maringá</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #B8FF4A;
+    --verde-dark: #8FCC2A;
+    --preto: #0D0D0D;
+    --cinza-escuro: #1A1A1A;
+    --cinza-medio: #2A2A2A;
+    --cinza-texto: #888;
+    --branco: #F5F5F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--preto);
+    color: var(--branco);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 5%;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky;
+    top: 0;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--verde); }
+
+  .header-cta {
+    background: var(--verde);
+    color: var(--preto);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+
+  .header-cta:hover {
+    background: var(--verde-dark);
+    transform: translateY(-1px);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(184,255,74,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 30%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(184,255,74,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(184,255,74,0.1);
+    border: 1px solid rgba(184,255,74,0.3);
+    color: var(--verde);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--verde);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--cinza-texto);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease 0.1s both;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    max-width: 900px;
+    margin-bottom: 32px;
+    animation: fadeDown 0.6s ease 0.2s both;
+  }
+
+  .hero-title .highlight {
+    color: var(--verde);
+    display: inline-block;
+    position: relative;
+  }
+
+  .hero-title .line-through {
+    color: var(--cinza-texto);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,80,80,0.6);
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: rgba(245,245,240,0.6);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s ease 0.3s both;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeDown 0.6s ease 0.4s both;
+  }
+
+  .btn-primary {
+    background: var(--verde);
+    color: var(--preto);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 18px 36px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.25s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-primary:hover {
+    background: var(--verde-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(184,255,74,0.25);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--branco);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 18px 32px;
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .hero-urgency {
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: var(--cinza-texto);
+    animation: fadeDown 0.6s ease 0.5s both;
+  }
+
+  .hero-urgency strong { color: #FF6B6B; font-weight: 500; }
+
+  /* PROVA SOCIAL */
+  .social-proof {
+    padding: 24px 5%;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(26,26,26,0.4);
+  }
+
+  .social-proof-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .social-proof-label {
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cinza-texto);
+  }
+
+  .social-stat {
+    text-align: center;
+  }
+
+  .social-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--verde);
+    display: block;
+    line-height: 1;
+  }
+
+  .social-stat-desc {
+    font-size: 0.8rem;
+    color: rgba(245,245,240,0.5);
+    margin-top: 4px;
+  }
+
+  /* NICHOS */
+  .nichos {
+    padding: 100px 5% 80px;
+    background: var(--preto);
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cinza-texto);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 60px;
+    max-width: 800px;
+  }
+
+  .nichos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+  }
+
+  .nicho-card {
+    background: var(--cinza-escuro);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nicho-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--verde);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .nicho-card:hover {
+    border-color: rgba(184,255,74,0.3);
+    transform: translateY(-4px);
+  }
+
+  .nicho-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .nicho-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .nicho-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .nicho-desc {
+    font-size: 0.95rem;
+    color: rgba(245,245,240,0.6);
+    line-height: 1.6;
+  }
+
+  /* PROBLEMA */
+  .problema {
+    padding: 100px 5%;
+    background: linear-gradient(180deg, var(--preto) 0%, var(--cinza-escuro) 100%);
+  }
+
+  .problema-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .card {
+    background: rgba(42,42,42,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 32px;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,80,80,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: #FF6B6B;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+    color: rgba(245,245,240,0.65);
+    line-height: 1.6;
+  }
+
+  /* CASO REAL */
+  .caso-real {
+    padding: 100px 5%;
+    background: var(--cinza-escuro);
+  }
+
+  .caso-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .caso-label {
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 24px;
+  }
+
+  .caso-quote {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.2;
+    margin-bottom: 32px;
+  }
+
+  .caso-quote em {
+    color: #FF6B6B;
+    font-style: normal;
+  }
+
+  .arrow-line {
+    font-size: 0.9rem;
+    color: rgba(245,245,240,0.5);
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .arrow-line::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--cinza-texto);
+  }
+
+  .resultado-box {
+    background: rgba(13,13,13,0.6);
+    border: 1px solid rgba(184,255,74,0.2);
+    padding: 40px;
+    position: relative;
+  }
+
+  .resultado-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(184,255,74,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .resultado-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .resultado-item:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .resultado-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: var(--verde);
+    line-height: 1;
+  }
+
+  .resultado-desc {
+    font-size: 0.85rem;
+    color: rgba(245,245,240,0.6);
+  }
+
+  /* MÉTRICA */
+  .metrica {
+    padding: 100px 5%;
+    background: var(--preto);
+  }
+
+  .metrica .section-title {
+    margin-bottom: 48px;
+  }
+
+  .two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1100px;
+  }
+
+  .col-wrong, .col-right {
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .col-wrong {
+    background: rgba(255,80,80,0.03);
+    border-color: rgba(255,80,80,0.2);
+  }
+
+  .col-right {
+    background: rgba(184,255,74,0.03);
+    border-color: rgba(184,255,74,0.2);
+  }
+
+  .col-header {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .col-wrong .col-header { color: #FF6B6B; }
+  .col-right .col-header { color: var(--verde); }
+
+  .metric-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(245,245,240,0.7);
+  }
+
+  .metric-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* PERGUNTAS */
+  .perguntas {
+    padding: 100px 5%;
+    background: var(--cinza-escuro);
+  }
+
+  .perguntas-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .pergunta-card {
+    background: rgba(13,13,13,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: all 0.3s;
+  }
+
+  .pergunta-card:hover {
+    border-color: rgba(184,255,74,0.3);
+    transform: translateX(8px);
+  }
+
+  .pergunta-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--verde);
+    flex-shrink: 0;
+  }
+
+  .pergunta-text {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: rgba(245,245,240,0.9);
+  }
+
+  .pergunta-alert {
+    background: rgba(184,255,74,0.08);
+    border: 1px solid rgba(184,255,74,0.25);
+    padding: 28px 32px;
+    margin-top: 40px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    text-align: center;
+    color: rgba(245,245,240,0.85);
+  }
+
+  /* OFERTA */
+  .oferta {
+    padding: 100px 5%;
+    background: var(--preto);
+  }
+
+  .oferta-box {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--cinza-escuro);
+    border: 2px solid var(--verde);
+    padding: 60px 50px;
+    text-align: center;
+    position: relative;
+  }
+
+  .oferta-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(184,255,74,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .oferta-titulo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .oferta-subtitulo {
+    font-size: 1.1rem;
+    color: rgba(245,245,240,0.6);
+    margin-bottom: 40px;
+  }
+
+  .oferta-includes {
+    text-align: left;
+    margin-bottom: 40px;
+  }
+
+  .include-item {
+    font-size: 0.95rem;
+    color: rgba(245,245,240,0.8);
+    margin-bottom: 14px;
+    padding-left: 28px;
+    position: relative;
+  }
+
+  .include-item::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--verde);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .oferta-limit {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+  }
+
+  /* FORMULÁRIO */
+  .form-section {
+    padding: 100px 5%;
+    background: var(--cinza-escuro);
+  }
+
+  .form-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .form-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .form-sub {
+    font-size: 1rem;
+    color: rgba(245,245,240,0.6);
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  form {
+    background: rgba(13,13,13,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 40px;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    color: rgba(245,245,240,0.7);
+  }
+
+  input, select {
+    width: 100%;
+    background: rgba(26,26,26,0.8);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--branco);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 14px 16px;
+    transition: all 0.2s;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--verde);
+    background: rgba(26,26,26,1);
+  }
+
+  select {
+    cursor: pointer;
+  }
+
+  .btn-form {
+    width: 100%;
+    background: var(--verde);
+    color: var(--preto);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 18px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: all 0.25s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    margin-top: 8px;
+  }
+
+  .btn-form:hover {
+    background: var(--verde-dark);
+    transform: translateY(-2px);
+  }
+
+  .form-disclaimer {
+    font-size: 0.8rem;
+    color: var(--cinza-texto);
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 5%;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: var(--preto);
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .footer-logo span { color: var(--verde); }
+
+  .footer-text {
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero {
+      min-height: auto;
+      padding: 60px 5% 40px;
+    }
+
+    .social-proof-inner {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .nichos-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .caso-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .two-cols {
+      grid-template-columns: 1fr;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .oferta-box {
+      padding: 40px 30px;
+    }
+
+    form {
+      padding: 28px 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">rasc<span>.</span> tráfego pago</div>
+  <a href="#diagnostico" class="header-cta">Diagnóstico Gratuito</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">Gestor de Tráfego Pago</div>
+  <p class="hero-eyebrow">Maringá · Paraná</p>
+  <h1 class="hero-title">
+    <span class="line-through">Curtidas</span> não<br>
+    pagam suas contas.<br>
+    <span class="highlight">Conversões</span> pagam.
+  </h1>
+  <p class="hero-subtitle">
+    Você investe em anúncios, mas está atraindo clientes de verdade ou apenas acumulando likes? Descubra como transformar tráfego em resultados reais.
+  </p>
+  <div class="hero-ctas">
+    <a href="#diagnostico" class="btn-primary">
+      Quero um diagnóstico gratuito →
+    </a>
+    <a href="#caso" class="btn-secondary">
+      Ver caso real
+    </a>
+  </div>
+  <p class="hero-urgency">
+    <strong>Apenas 10 vagas</strong> disponíveis para diagnóstico gratuito este mês.
+  </p>
+</section>
+
+<!-- PROVA SOCIAL -->
+<section class="social-proof">
+  <div class="social-proof-inner">
+    <span class="social-proof-label">Confiado por:</span>
+    <div class="social-stat">
+      <span class="social-stat-num">50+</span>
+      <span class="social-stat-desc">negócios atendidos</span>
+    </div>
+    <div class="social-stat">
+      <span class="social-stat-num">R$280k</span>
+      <span class="social-stat-desc">gerenciados em anúncios</span>
+    </div>
+    <div class="social-stat">
+      <span class="social-stat-num">3.8x</span>
+      <span class="social-stat-desc">ROI médio dos clientes</span>
+    </div>
+  </div>
+</section>
+
+<!-- NICHOS -->
+<section class="nichos">
+  <p class="section-label reveal">Áreas de atuação</p>
+  <h2 class="section-title reveal">Tráfego pago especializado<br>para o <span style="color: var(--verde)">seu nicho</span></h2>
+
+  <div class="nichos-grid">
+    <div class="nicho-card reveal">
+      <span class="nicho-icon">🏥</span>
+      <h3 class="nicho-title">Clínicas & Consultórios</h3>
+      <p class="nicho-desc">Clínicas odontológicas, médicas, estéticas e consultórios particulares que precisam de agenda cheia.</p>
+    </div>
+    <div class="nicho-card reveal">
+      <span class="nicho-icon">⚖️</span>
+      <h3 class="nicho-title">Advogados</h3>
+      <p class="nicho-desc">Escritórios e advogados autônomos que buscam captação de clientes qualificados nas áreas cível, criminal e trabalhista.</p>
+    </div>
+    <div class="nicho-card reveal">
+      <span class="nicho-icon">🥗</span>
+      <h3 class="nicho-title">Nutricionistas</h3>
+      <p class="nicho-desc">Profissionais que querem atrair pacientes para consultas presenciais ou online com estratégias de conversão.</p>
+    </div>
+    <div class="nicho-card reveal">
+      <span class="nicho-icon">💪</span>
+      <h3 class="nicho-title">Academias & Studios</h3>
+      <p class="nicho-desc">Academias, crossfit, pilates e personal trainers que precisam aumentar matrículas e fidelizar alunos.</p>
+    </div>
+    <div class="nicho-card reveal">
+      <span class="nicho-icon">☕</span>
+      <h3 class="nicho-title">Cafeterias & Food</h3>
+      <p class="nicho-desc">Cafeterias, restaurantes e food trucks que querem aumentar movimento e ticket médio com anúncios locais.</p>
+    </div>
+    <div class="nicho-card reveal">
+      <span class="nicho-icon">🏢</span>
+      <h3 class="nicho-title">Negócios Locais</h3>
+      <p class="nicho-desc">Qualquer negócio local que dependa de vendas diretas e agendamentos para faturar mais todos os meses.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problema">
+  <div class="problema-inner">
+    <p class="section-label reveal">O que está errado</p>
+    <h2 class="section-title reveal">Você está pagando<br>pelo <span style="color: #FF6B6B">erro errado</span></h2>
+
+    <div class="cards-grid">
+      <div class="card reveal">
+        <div class="card-icon">🎯</div>
+        <h3 class="card-title">Meta: viral</h3>
+        <p class="card-text">Querem que seu post bomba, mas não que sua agenda encha. Alcance sem conversão é vaidade.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">👥</div>
+        <h3 class="card-title">Público: errado</h3>
+        <p class="card-text">Anúncios otimizados para quem curte e compartilha — não para quem paga e agenda.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">🔴</div>
+        <h3 class="card-title">KPI: seguidores</h3>
+        <p class="card-text">Seguidores não pagam boletos. Se você não sabe o custo por cliente, está investindo no escuro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASO REAL -->
+<section class="caso-real" id="caso">
+  <div class="caso-inner">
+    <div>
+      <p class="caso-label">Caso real · Escritório de advocacia</p>
+      <h2 class="caso-quote reveal">
+        "Já gastei R$ 8 mil em anúncios e <em>não vejo resultado.</em>"
+      </h2>
+      <div class="reveal">
+        <div class="arrow-line">Anúncios otimizados para curtidas</div>
+        <div class="arrow-line">Público segmentado por engajamento</div>
+        <div class="arrow-line">KPI: quantas pessoas vão seguir o perfil</div>
+      </div>
+      <p class="reveal" style="margin-top: 24px; font-size: 1rem; color: rgba(245,245,240,0.6); line-height: 1.6;">
+        Ele estava pagando pra fazer <strong style="color: var(--branco)">show nas redes sociais</strong> — não pra captar clientes.
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="resultado-box">
+        <h3 style="font-family: 'Syne', sans-serif; font-size: 1.1rem; margin-bottom: 28px; color: rgba(245,245,240,0.5); font-weight: 600; letter-spacing: -0.02em;">Depois da virada em 72h:</h3>
+        <div class="resultado-item">
+          <span class="resultado-num">31</span>
+          <span class="resultado-desc">consultas agendadas em 30 dias</span>
+        </div>
+        <div class="resultado-item">
+          <span class="resultado-num">R$42</span>
+          <span class="resultado-desc">custo por lead qualificado</span>
+        </div>
+        <div class="resultado-item">
+          <span class="resultado-num">5,1x</span>
+          <span class="resultado-desc">de retorno sobre o investimento</span>
+        </div>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: var(--cinza-texto);">Mesmo negócio. Mesmo orçamento. Foco diferente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTRICA CERTA -->
+<section class="metrica">
+  <p class="section-label reveal">A diferença que muda tudo</p>
+  <h2 class="section-title reveal">Métrica de vaidade<br>vs. métrica de <span style="color: var(--verde)">resultado</span></h2>
+
+  <div class="two-cols reveal">
+    <div class="col-wrong">
+      <div class="col-header">✕ O erro mais caro</div>
+      <div class="metric-item">
+        <span class="metric-icon">🔴</span>
+        Likes não pagam suas contas
+      </div>
+      <div class="metric-item">
+        <span class="metric-icon">🔴</span>
+        Seguidores não enchem sua agenda
+      </div>
+      <div class="metric-item">
+        <span class="metric-icon">🔴</span>
+        Curtidas não te dão ROI
+      </div>
+      <div class="metric-item">
+        <span class="metric-icon">🔴</span>
+        Alcance sem conversão = dinheiro jogado fora
+      </div>
+    </div>
+    <div class="col-right">
+      <div class="col-header">✓ O que importa de verdade</div>
+      <div class="metric-item">
+        <span class="metric-icon">✅</span>
+        Quantos leads qualificados você gerou?
+      </div>
+      <div class="metric-item">
+        <span class="metric-icon">✅</span>
+        Quanto custou cada agendamento/venda?
+      </div>
+      <div class="metric-item">
+        <span class="metric-icon">✅</span>
+        Quantos viraram clientes pagantes?
+      </div>
+      <div class="metric-item">
+        <span class="metric-icon">✅</span>
+        Qual foi o retorno do investimento?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 PERGUNTAS -->
+<section class="perguntas">
+  <div class="perguntas-inner">
+    <p class="section-label reveal" style="justify-content: center;">Diagnóstico rápido</p>
+    <h2 class="section-title reveal" style="text-align: center; margin-bottom: 40px;">Responda essas<br>3 perguntas</h2>
+
+    <div class="reveal">
+      <div class="pergunta-card">
+        <div class="pergunta-num">01</div>
+        <div class="pergunta-text">Você sabe quanto custa cada cliente que vem dos seus anúncios?</div>
+      </div>
+      <div class="pergunta-card">
+        <div class="pergunta-num">02</div>
+        <div class="pergunta-text">Seus anúncios estão otimizados para conversão ou para engajamento?</div>
+      </div>
+      <div class="pergunta-card">
+        <div class="pergunta-num">03</div>
+        <div class="pergunta-text">Você consegue rastrear quantos clientes vieram de cada campanha?</div>
+      </div>
+    </div>
+
+    <div class="pergunta-alert reveal">
+      Se respondeu <strong>"não"</strong> pra alguma, você está deixando dinheiro na mesa todos os dias.<br>
+      A boa notícia? <strong style="color: var(--verde)">Tem solução — e é rápida.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- OFERTA -->
+<section class="oferta" id="oferta">
+  <div class="oferta-box reveal">
+    <p class="section-label" style="justify-content: center; margin-bottom: 16px;">Para os próximos 10 negócios</p>
+    <h2 class="oferta-titulo">🎁 Diagnóstico<br>100% Gratuito</h2>
+    <p class="oferta-subtitulo">Sem compromisso. Sem enrolação. Só resultado.</p>
+
+    <div class="oferta-includes">
+      <div class="include-item">Análise completa dos seus anúncios atuais</div>
+      <div class="include-item">Mapeamento de oportunidades no seu nicho</div>
+      <div class="include-item">Estimativa de faturamento possível</div>
+      <div class="include-item">Estratégia personalizada para seu negócio</div>
+      <div class="include-item">Identificação das métricas que importam</div>
+      <div class="include-item">Plano de ação para os próximos 30 dias</div>
+    </div>
+
+    <a href="#diagnostico" class="btn-primary" style="font-size: 1.1rem; padding: 20px 48px; clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); display: inline-flex;">
+      Quero meu diagnóstico gratuito →
+    </a>
+    <p class="oferta-limit">Válido <strong>só pros próximos 10 negócios</strong> que solicitarem em Maringá.</p>
+  </div>
+</section>
+
+<!-- FORMULÁRIO -->
+<section class="form-section" id="diagnostico">
+  <div class="form-inner">
+    <h2 class="form-title reveal">Solicite agora</h2>
+    <p class="form-sub reveal">Preencha abaixo e entraremos em contato em até 2 horas úteis.</p>
+
+    <form class="reveal" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input type="text" placeholder="Seu nome" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="tel" placeholder="(44) 9 9999-9999" required>
+        </div>
+        <div class="form-group">
+          <label>Tipo de negócio</label>
+          <select required>
+            <option value="">Selecione</option>
+            <option>Clínica odontológica</option>
+            <option>Clínica médica</option>
+            <option>Clínica estética</option>
+            <option>Consultório</option>
+            <option>Escritório de advocacia</option>
+            <option>Nutricionista</option>
+            <option>Academia / Studio</option>
+            <option>Cafeteria / Restaurante</option>
+            <option>Outro negócio local</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nome do negócio</label>
+        <input type="text" placeholder="Nome do seu negócio" required>
+      </div>
+      <div class="form-group">
+        <label>Investe em tráfego pago hoje?</label>
+        <select required>
+          <option value="">Selecione</option>
+          <option>Sim, mas sem resultado</option>
+          <option>Sim, com resultado mediano</option>
+          <option>Não, mas quero começar</option>
+          <option>Nunca investi</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-form">
+        Quero meu diagnóstico gratuito →
+      </button>
+      <p class="form-disclaimer">
+        Seus dados estão seguros. Não enviamos spam.<br>
+        Retorno em até 2 horas úteis via WhatsApp.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">rasc<span>.</span> tráfego pago</div>
+  <p class="footer-text">Maringá, Paraná · 2026</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit -> abre WhatsApp com mensagem pronta
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const inputs = form.querySelectorAll('input, select');
+
+    const nome     = inputs[0].value.trim();
+    const whats    = inputs[1].value.trim();
+    const tipo     = inputs[2].value.trim();
+    const negocio  = inputs[3].value.trim();
+    const trafego  = inputs[4].value.trim();
+
+    const mensagem =
+      'Olá! Quero solicitar o Diagnóstico Gratuito de Tráfego Pago\n\n' +
+      '*Nome:* ' + nome + '\n' +
+      '*Negócio:* ' + negocio + '\n' +
+      '*Tipo:* ' + tipo + '\n' +
+      '*WhatsApp:* ' + whats + '\n' +
+      '*Investe em tráfego hoje?* ' + trafego + '\n\n' +
+      'Vi no site e quero saber como posso melhorar meus resultados com anúncios.';
+
+    const numero = '5544998727087';
+    const url = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(mensagem);
+
+    const btn = form.querySelector('.btn-form');
+    btn.textContent = 'Redirecionando para o WhatsApp...';
+    btn.style.background = '#2A6E00';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+
+    setTimeout(function() { window.open(url, '_blank'); }, 500);
+  }
+
+  // Urgency counter (opcional)
+  let vagas = 10;
+  const urgencias = document.querySelectorAll('.hero-urgency strong, .oferta-limit strong');
+</script>
+</body>
+</html>
